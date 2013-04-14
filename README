@@ -1,0 +1,64 @@
+
+Welcome to Happycube Labs, where the past is being remade, today!
+
+Today's experiment: the world's first(?) Apple Pi...
+
+-----
+
+The Raspberry Pi’s name is clearly a homage to the Apple II, so it only makes sense to combine it with an Apple II to make an Apple Pi. :)
+
+The Apple II series hardware design is very clever, but the hardware itself is quite old these days.  As long as the keyboard still works, modern technology makes it easy to take the keyboard, encode it to USB to create an emulator setup which ‘feels’ more like the original hardware but uses modern technology.
+
+It’s also quite possible to make an I/O board for the Apple II (or any other vintage computer) to allow it to communicate quickly with an Rpi or other computer for new possibilities.  But that costs more money, requires writing original native code to support the link, and I have other projects to do...
+
+Besides, by adapting the keyboard to standard USB, it can work instantly with any modern computer.  Or a tablet that supports USB host/otg mode, like a Nexus 7...
+
+---
+
+I implemented a USB keyboard adapter for the internal Apple IIe keyboard using a Teensy++ 2.0, pin headers, and wire wrap wire.  The wire wrapping is sufficient for this application and allows for a nice compact looking setup.  With male pin headers placed onto the breadboard, it can also be easily and safely transferred to a new breadboard.
+
+This is the first keyboard matrix scanning code I had written, and the intuitive idea of only providing 5v to the currently active row was electrically unstable.  So I did some digging and found that the similar c64key project put all row and column pins into pull-up by default, grounding one row at a time so that pressed keys are grounded and read as 0.
+
+Every key on the Apple IIe keyboard except for reset maps directly to a standard USB HID key, so handling function keys is difficult.  I linked F2-F5 to the reset key using a combination of control-reset and other modifier keys to support controlling Apple IIe emulators to at least some extent.
+
+---
+
+The IIe's keyboard connector is a standard (but disordered) 26-pin 2x13 arrangement. 
+It has an 8x10 keyboard matrix and several other pins.
+
+Teensy++ 2.0 has 40 pins, so it can be used without any additional shifting or aliasing.
+
+The X matrix is be wired to B0-7, and the Y to F0-7 and C0-1.  The rest of the C port is used for the other wires/switches. 
+
+Pin 1 (bottom right)
+
+Bottom row, pin 1 on bottom right, etc
+
+1 - Y0 -> F0
+3 - 5V -> 5V
+5 - SW0 -> C2
+7 - SW1 -> C3
+9 - CAPSLOCK -> C4
+11 - CNTL -> C5
+13 - GND -> GND
+15 - RESET -> C6
+17 - X7 -> B7
+19 - X5 -> B5
+21 - X4 -> B4
+23 - Y6 -> F6
+25 - Y7 -> F7
+
+2 - Y1 -> F1
+4 - Y2 -> F2
+6 - Y3 -> F3
+8 - Y4 -> F4
+10 - Y5 -> F5
+12 - Y8 -> C0 
+14 - X0 -> B0
+16 - X2 -> B2
+18 - X1 -> B1
+20 - X3 -> B3
+22 - Y9 -> C1
+24 - SHIFT -> C7
+26 - X6 -> B6
+
