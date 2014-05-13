@@ -1,6 +1,6 @@
 #
 #             LUFA Library
-#     Copyright (C) Dean Camera, 2013.
+#     Copyright (C) Dean Camera, 2014.
 #
 #  dean [at] fourwalledcubicle [dot] com
 #           www.lufa-lib.org
@@ -13,13 +13,13 @@
 
 MCU          = at90usb1286
 ARCH         = AVR8
-BOARD        = TEENSY
+BOARD        = TEENSY 
 F_CPU        = 16000000
 F_USB        = $(F_CPU)
 OPTIMIZATION = s
 TARGET       = Keyboard
 SRC          = $(TARGET).c Descriptors.c $(LUFA_SRC_USB) $(LUFA_SRC_USBCLASS)
-LUFA_PATH    = ../../../../LUFA
+LUFA_PATH    = ../../LUFA/LUFA
 CC_FLAGS     = -DUSE_LUFA_CONFIG_HEADER -IConfig/
 LD_FLAGS     =
 
